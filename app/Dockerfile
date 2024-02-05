@@ -14,11 +14,10 @@ ENV PATH="/root/.local/bin:${PATH}"
 WORKDIR /app
 COPY . .
 
-RUN npm i --save-dev prisma@latest
-RUN npm i @prisma/client@latest 
-
 # Expose the port Wasp uses by default
 EXPOSE 3000
+
+RUN wasp start db
 
 RUN wasp db migrate-dev
 
