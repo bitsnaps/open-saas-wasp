@@ -14,7 +14,6 @@ ENV PATH="/root/.local/bin:${PATH}"
 WORKDIR /app
 COPY . .
 
-RUN npm install -g npm@10.4.0
 RUN npm i --save-dev prisma@latest
 RUN npm i @prisma/client@latest 
 
