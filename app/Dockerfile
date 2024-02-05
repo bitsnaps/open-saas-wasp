@@ -21,10 +21,6 @@ RUN npm i @prisma/client@latest
 # Expose the port Wasp uses by default
 EXPOSE 3000
 
-# Use an entrypoint script to handle initialization and starting of the Wasp project
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
+RUN wasp db migrate-dev
 
-# Default command to run when starting the container
-CMD ["wasp", "start"]
+RUN wasp start
