@@ -13,10 +13,9 @@ wasp db migrate-dev
 
 # If you're directly starting Wasp's server and potentially Wasp DB studio,
 # consider the implications on container lifecycle and logging
-wasp start
-
-# To use Wasp DB studio, you'd typically run it in a development environment
+wasp build
 wasp db studio
+wasp start
 
 # Execute the command provided to the docker run command, if any
 exec "$@"
