@@ -14,7 +14,9 @@ ENV PATH="/root/.local/bin:${PATH}"
 WORKDIR /app
 COPY . .
 
+RUN wasp db migrate-dev
+RUN wasp start
+
 # Expose the port Wasp uses by default
 EXPOSE 3000
 
-RUN wasp start
