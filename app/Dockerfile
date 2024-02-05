@@ -17,8 +17,4 @@ COPY . .
 # Expose the port Wasp uses by default
 EXPOSE 3000
 
-RUN wasp start db
-
-RUN wasp db migrate-dev
-
 RUN wasp start
