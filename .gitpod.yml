@@ -1,0 +1,39 @@
+# Image of workspace. Learn more: https://www.gitpod.io/docs/configure/workspaces/workspace-image
+image: gitpod/workspace-full:latest
+
+# List the start up tasks. Learn more: https://www.gitpod.io/docs/configure/workspaces/tasks
+tasks:
+  - name: Script Task
+    init: |
+      echo 'init script' # runs during prebuild => https://www.gitpod.io/docs/configure/projects/prebuilds
+      nvm install 18.12.0
+      nvm use 18.12.0
+      curl -sSL https://get.wasp-lang.dev/installer.sh | sh
+      cd app/
+      echo "STRIPE_KEY=" > .env.server
+      wasp start db
+      wasp db migrate-dev
+    command: |
+      echo 'start script'
+      wasp start
+
+
+# List the ports to expose. Learn more: https://www.gitpod.io/docs/configure/workspaces/ports
+ports:
+  - name: Frontend
+    description: Port 3000 for the frontend
+    port: 3000
+    onOpen: open-preview
+  - name: Postgresq
+    description: PostgreSQL port
+    port: 5432
+    onOpen: ignore
+  - name: Prisma Studio
+    description: UI Manager and administration (users, roles...)
+    port: 5555
+    onOpen: open-preview
+
+
+
+
+# Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
