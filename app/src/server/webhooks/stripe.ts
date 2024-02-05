@@ -1,14 +1,14 @@
-import express from 'express';
 import { StripeWebhook } from '@wasp/apis/types';
-import type { MiddlewareConfigFn } from '@wasp/middleware';
 import { emailSender } from '@wasp/email/index.js';
+import type { MiddlewareConfigFn } from '@wasp/middleware';
 import { TierIds } from '@wasp/shared/constants.js';
+import express from 'express';
 
 import Stripe from 'stripe';
 
 // make sure the api version matches the version in the Stripe dashboard
 const stripe = new Stripe(process.env.STRIPE_KEY!, {
-  apiVersion: '2022-11-15', // TODO find out where this is in the Stripe dashboard and document
+  apiVersion: '2023-10-16', // TODO find out where this is in the Stripe dashboard and document
 });
 
 export const stripeWebhook: StripeWebhook = async (request, response, context) => {

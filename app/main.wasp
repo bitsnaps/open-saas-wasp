@@ -13,44 +13,29 @@ app SaaSTemplate {
         "<meta name='twitter:image:height' content='400' />",
         "<meta name='twitter:card' content='summary_large_image' />",
         // you can put your analytics scripts here
-        "<script defer data-domain='<your-site-id>' src='https://plausible.io/js/script.js'></script>",
+        //"<script defer data-domain='<your-site-id>' src='https://plausible.io/js/script.js'></script>",
         // plausible has script extension `script.local.js` for local development
-        "<script defer data-domain='<your-site-id>' src='https://plausible.io/js/script.local.js'></script>",
+        //"<script defer data-domain='<your-site-id>' src='https://plausible.io/js/script.local.js'></script>",
         // google analytics only needs one script and will automatically detect if you are in dev mode 
-        "<!-- Google tag (gtag.js) --><script>...</script>"
+        //"<!-- Google tag (gtag.js) --><script>...</script>"
   ],
   // 🔐 Auth out of the box! https://wasp-lang.dev/docs/auth/overview
   auth: {
-    userEntity: User,
-    externalAuthEntity: SocialLogin,
-    methods: {
-      usernameAndPassword: {},
-      // google: { // Guide for setting up Auth via Google https://wasp-lang.dev/docs/auth/social-auth/overview
-      //   getUserFieldsFn: import { getUserFields } from "@server/auth/google.js",
-      //   configFn: import { config } from "@server/auth/google.js",
-      // },
-      // email: {
-      //   fromField: {
-      //     name: "Open SaaS App",
-      //     // make sure this address is the same you registered your SendGrid or MailGun account with!
-      //     email: "me@example.com" 
-      //   },
-      //   emailVerification: {
-      //     clientRoute: EmailVerificationRoute,
-      //     getEmailContentFn: import { getVerificationEmailContent } from "@server/auth/email.js",
-      //   },
-      //   passwordReset: {
-      //     clientRoute: PasswordResetRoute,
-      //     getEmailContentFn: import { getPasswordResetEmailContent } from "@server/auth/email.js",
-      //   },
-      // },
+  userEntity: User,
+  externalAuthEntity: SocialLogin, // This line specifies the entity for external auth
+  methods: {
+    usernameAndPassword: {},
+    google: {
+      getUserFieldsFn: import { getUserFields } from "@server/auth/google.js",
+      configFn: import { config } from "@server/auth/google.js",
     },
-    signup: {
-      additionalFields: import setIsAdminViaEmailSignup from "@server/auth/setIsAdminViaEmailSignup.js",
-    },
-    onAuthFailedRedirectTo: "/login",
-    onAuthSucceededRedirectTo: "/demo-app",
   },
+  signup: {
+    additionalFields: import setIsAdminViaEmailSignup from "@server/auth/setIsAdminViaEmailSignup.js",
+  },
+  onAuthFailedRedirectTo: "/login",
+  onAuthSucceededRedirectTo: "/demo-app",
+},
   db: { 
     system: PostgreSQL,
     seeds: [
@@ -65,7 +50,7 @@ app SaaSTemplate {
     defaultFrom: {
       name: "Open SaaS App",
       // make sure this address is the same you registered your SendGrid or MailGun account with!
-      email: "me@example.com" 
+      email: "adryserage@gmail.com" 
     },
   },
   // add your dependencies here. the quickest way to find the latest version is `npm view <package-name> version`
@@ -208,20 +193,20 @@ page SignupPage {
   component: import { Signup } from "@client/auth/SignupPage"
 }
 
-// route RequestPasswordResetRoute { path: "/request-password-reset", to: RequestPasswordResetPage }
-// page RequestPasswordResetPage {
-//   component: import { RequestPasswordReset } from "@client/auth/RequestPasswordReset",
-// }
+route RequestPasswordResetRoute { path: "/request-password-reset", to: RequestPasswordResetPage }
+page RequestPasswordResetPage {
+component: import { RequestPasswordReset } from "@client/auth/RequestPasswordReset",
+}
 
-// route PasswordResetRoute { path: "/password-reset", to: PasswordResetPage }
-// page PasswordResetPage {
-//   component: import { PasswordReset } from "@client/auth/PasswordReset",
-// }
+route PasswordResetRoute { path: "/password-reset", to: PasswordResetPage }
+page PasswordResetPage {
+component: import { PasswordReset } from "@client/auth/PasswordReset",
+}
 
-// route EmailVerificationRoute { path: "/email-verification", to: EmailVerificationPage }
-// page EmailVerificationPage {
-//   component: import { EmailVerification } from "@client/auth/EmailVerification",
-// }
+route EmailVerificationRoute { path: "/email-verification", to: EmailVerificationPage }
+page EmailVerificationPage {
+component: import { EmailVerification } from "@client/auth/EmailVerification",
+}
 
 route DemoAppRoute { path: "/demo-app", to: DemoAppPage }
 page DemoAppPage {
@@ -403,7 +388,7 @@ job dailyStatsJob {
   },
   schedule: {
     cron: "0 * * * *" // every hour. useful in production
-    // cron: "* * * * *" // every minute. useful for debugging
+    //cron: "* * * * *" // every minute. useful for debugging
   },
   entities: [User, DailyStats, Logs, PageViewSource]
 }
