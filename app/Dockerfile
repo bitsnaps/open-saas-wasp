@@ -2,7 +2,7 @@
 FROM node:18.12.0
 
 # Install dependencies required for the installation script and running Wasp
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update && apt-get install -y curl xdg-utils
 
 # Install Wasp CLI
 RUN curl -sSL https://get.wasp-lang.dev/installer.sh | sh
