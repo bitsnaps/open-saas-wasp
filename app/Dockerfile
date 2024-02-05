@@ -7,10 +7,10 @@ RUN apt-get update && apt-get install -y curl
 # Install Wasp CLI
 RUN curl -sSL https://get.wasp-lang.dev/installer.sh | sh
 
-COPY . /app
-
 # Copy your application code into the Docker container
 WORKDIR /app
+
+COPY . .
 
 # Expose the port Wasp uses by default
 EXPOSE 3000
