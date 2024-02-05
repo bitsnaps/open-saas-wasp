@@ -1,17 +1,26 @@
 # Use a Node.js base image
 FROM node:latest
 
-# Install curl
+# Install dependencies required for the installation script and running Wasp
 RUN apt-get update && apt-get install -y curl
 
-# Run the Wasp installer
+# Install Wasp CLI
 RUN curl -sSL https://get.wasp-lang.dev/installer.sh | sh
 
-# Run database migration
-# Note: This is a setup command and might not be suitable to run in Dockerfile. Consider moving to an entrypoint script if it requires running environment
-RUN wasp db migrate-dev
-RUN wasp start
-RUN wasp db studio
+# Add Wasp and local bin to PATH for this Dockerfile and runtime
+ENV PATH="/root/.local/bin:${PATH}"
 
-# Expose the port wasp uses
+# Copy your application code into the Docker container
+WORKDIR /app
+COPY . .
+
+# Expose the port Wasp uses by default
 EXPOSE 3000
+
+# Use an entrypoint script to handle initialization and starting of the Wasp project
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Default command to run when starting the container
+CMD ["wasp", "start"]
