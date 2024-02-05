@@ -14,6 +14,10 @@ ENV PATH="/root/.local/bin:${PATH}"
 WORKDIR /app
 COPY . .
 
+RUN npm install -g npm@latest
+RUN npm i --save-dev prisma@latest
+RUN npm i @prisma/client@latest 
+
 # Expose the port Wasp uses by default
 EXPOSE 3000
 
