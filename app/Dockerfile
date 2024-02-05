@@ -1,5 +1,5 @@
-# Use a Node.js base image
-FROM node:latest
+# Use a specific Node.js base image that is compatible with Wasp
+FROM node:18.12.0
 
 # Install dependencies required for the installation script and running Wasp
 RUN apt-get update && apt-get install -y curl
